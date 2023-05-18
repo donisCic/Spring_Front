@@ -13,7 +13,7 @@ import { ClienteService } from './clientes/cliente.service';
 import { RouterModule, Routes } from '@angular/router';
 //* con esta libreria importada vamos a poder conectar el backend con el front end/
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import localeES from '@angular/common/locales/es';
 import { formatDate, DatePipe, registerLocaleData} from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,7 +25,12 @@ import { AuthGuard } from './usuarios/guards/auth.guard';
 import { RoleGuard } from './usuarios/guards/role.guard';
 import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 import { AuthInterceptor } from './usuarios/interceptors/auth.interceptor';
+import { DetalleFacturaComponent } from './facturas/detalle-factura.component';
+import { FacturasComponent } from './facturas/facturas.component';
 
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 registerLocaleData(localeES,'es');
@@ -39,7 +44,9 @@ const routes: Routes = [
   {path: 'clientes/page/:page', component: ClientesComponent},
   {path: 'clientes/form', component: FormComponent, canActivate:[AuthGuard, RoleGuard], data:{role:'ROLE_ADMIN'}}, //mapeo de la ruta al componente formulario
   {path: 'clientes/form/:id', component: FormComponent, canActivate:[AuthGuard, RoleGuard], data:{role:'ROLE_ADMIN'}}, //mapeo de la ruta del boton editar cliente
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: 'facturas/:id', component: DetalleFacturaComponent},
+  {path: 'facturas/form/:clienteId', component: FacturasComponent}
 
 ];
 
@@ -53,7 +60,9 @@ const routes: Routes = [
     FormComponent,
     PaginatorComponent,
     DetalleComponent,
-    LoginComponent
+    LoginComponent,
+    DetalleFacturaComponent,
+    FacturasComponent
   ],
   imports: [
     BrowserModule,
@@ -63,8 +72,9 @@ const routes: Routes = [
     FormsModule,
     //agregamos la ruta que creamos arriba/
     RouterModule.forRoot(routes),
-    BrowserAnimationsModule,MatNativeDateModule, MatDatepickerModule
-
+    BrowserAnimationsModule,MatNativeDateModule, MatDatepickerModule,
+    MatAutocompleteModule,MatInputModule,
+    MatFormFieldModule,ReactiveFormsModule
   ],
   providers: [ClienteService,
     {provide: LOCALE_ID, useValue: 'es'},
