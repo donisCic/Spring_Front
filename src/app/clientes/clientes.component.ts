@@ -18,7 +18,7 @@ export class ClientesComponent {
   clienteSeleccionado:Cliente;
 
   constructor(private clienteService: ClienteService,
-    private modalService: ModalService,
+    public modalService: ModalService,
     public authService: AuthService,
     private activatedRoute: ActivatedRoute){
 
